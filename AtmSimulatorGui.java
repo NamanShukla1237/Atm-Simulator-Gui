@@ -1,3 +1,5 @@
+//Atm simulator single file project 
+//Atm simultor Gui version 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-// short Hinglish comments, student style
+
 // Interface for basic transaction
 interface Transaction {
     void perform(int amount); // deposit
@@ -75,8 +77,7 @@ class SavingsAccount extends Account implements Transaction, AccountOperations {
     }
 }
 
-// Database helper class - shows JDBC structure (rubric DB classes + connectivity)
-// NOTE: placeholders used for URL/credentials. Teacher can see JDBC usage.
+//Database 
 class DatabaseManager {
 
     // update these if you want to test with real DB
@@ -101,7 +102,7 @@ class DatabaseManager {
 
     // Insert transaction with PreparedStatement (shows implementation)
     public static void insertTransaction(String user, String detail) {
-        // try real DB first, if fails fallback to console print
+      //try real DB, may be on console it fails 
         Connection con = null;
         PreparedStatement ps = null;
         try {
@@ -113,10 +114,10 @@ class DatabaseManager {
             ps.executeUpdate();
             System.out.println("DB Inserted (JDBC): " + user + " - " + detail);
         } catch (ClassNotFoundException | SQLException e) {
-            // fallback - show it's recorded (useful for grading)
+           
             System.out.println("DB Insert fallback: " + user + " - " + detail);
         } finally {
-            // close resources safely
+           
             try { if (ps != null) ps.close(); } catch (Exception ignored) {}
             try { if (con != null) con.close(); } catch (Exception ignored) {}
         }
@@ -151,11 +152,11 @@ public class AtmSimulatorGui {
     private static String currentUser;
 
     public static void main(String[] args) {
-        // demo user (so teacher can login quickly)
+        // demo user
         userPinMap.put("Priyanshu", 1234);
         accountsMap.put("Priyanshu", new SavingsAccount(10000));
 
-        // start GUI on EDT - correct Swing usage
+        // start GUI on EDT
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 showLoginScreen();
@@ -273,7 +274,6 @@ public class AtmSimulatorGui {
                 userPinMap.put(newUser, newPin);
                 accountsMap.put(newUser, new SavingsAccount(10000));
 
-                // try to write user into DB (best-effort)
                 DatabaseManager.insertTransaction(newUser, "Account created - initial balance Rs10000");
                 JOptionPane.showMessageDialog(loginFrame, "Account created successfully for " + newUser);
             }
@@ -447,7 +447,7 @@ public class AtmSimulatorGui {
             return;
         }
 
-        // CHEQUE DEPOSIT (multithreading example)
+        // CHEQUE DEPOSIT (multithreading)
         if ("Cheque Deposit".equals(option)) {
 
             String chequeStr = JOptionPane.showInputDialog(frame, "Enter cheque amount:");
@@ -534,7 +534,7 @@ public class AtmSimulatorGui {
         if ("Exit".equals(option)) {
             frame.dispose();
             JOptionPane.showMessageDialog(null,
-                    "Thank you for using ATM Simulator. Goodbye!");
+                    "Thank you for using ATM Simulator. bye!");
             return;
         }
     }
